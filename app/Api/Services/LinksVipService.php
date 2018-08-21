@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class LinksVipService{
-    protected $user='';
-    protected $pass='';
+    protected $user='';//User linksvip ở đây...
+    protected $pass='';//Mật khẩu nữa...
     protected $loginEndpoint='';
     protected $getLinkEndpoint='https://linksvip.net/GetLinkFs';
     function __construct()
