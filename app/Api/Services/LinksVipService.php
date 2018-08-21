@@ -77,7 +77,7 @@ class LinksVipService{
         $result['request']=$data;
         return $result;
     }
-    function hash($length){
+    function hash($length=32){
         return str_random($length);
     }
     function maybeLogin(){

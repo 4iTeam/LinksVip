@@ -26,7 +26,7 @@ class LinksVipController extends Controller
     function index(){
         $this->linksvip->maybeLogin();
         $check=$this->linksvip->checkLogin();
-        $check['hash']=str_random(32);
+        $check['hash']=$this->linksvip->hash(32);
         $check['hash'].='|'.strlen($check['hash']);
         return $check;
     }
