@@ -46,7 +46,7 @@ class LinksVipController extends Controller
             }
             return $result;
         }else{
-            return ['status'=>0,'message'=>'Pin yếu, đang xạc pin nhé!','error'=>'wait'];
+            return ['status'=>0,'message'=>'Máy chủ bận, hãy thử lại sau vài phút!','error'=>'wait'];
         }
     }
 }
