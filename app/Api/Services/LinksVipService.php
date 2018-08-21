@@ -39,11 +39,11 @@ class LinksVipService{
         if(Cache::has('linksvip_catched_'.md5($link.$pass))){
             return Cache::get('linksvip_catched_'.md5($link.$pass));
         }
-        return Cache::remember('linksvip_get_link',0.2,function()use($link,$pass){
+        return Cache::remember('linksvip_get_link',0.2,function()use($link,$pass){//Giới hạn thời gian 0.2 phút (12 giây) 1 link
             $result= $this->_getLink($link,$pass);
             if(!empty($result['linkvip'])){//we found a link cache it
-                Cache::put('linksvip_catched_'.md5($link),$result,24*60);
-                Cache::put('linksvip_catched_'.md5($link.$pass),$result,24*60);
+                Cache::put('linksvip_catched_'.md5($link),$result,24*60);//Link đã được get sẽ được lưu trong 24 giờ
+                Cache::put('linksvip_catched_'.md5($link.$pass),$result,24*60);//Link đã được get sẽ được lưu trong 24 giờ
             }
             return $result;
         });
