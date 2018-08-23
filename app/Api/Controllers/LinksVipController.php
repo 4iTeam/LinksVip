@@ -29,7 +29,7 @@ class LinksVipController extends Controller
             return redirect()->to('v1/links_vip');
         }
         $this->linksvip->maybeLogin();
-        $check=$this->linksvip->checkLogin();
+        $check=$this->linksvip->getUserInfo();
         if(empty($check)){
             return 'Chưa đăng nhập, có thể do thông tin tài khoản không chính xác hãy cập nhật thông tin tài khoản và nhấp vào liên kết bên dưới để thử lại.<br>
             <a href="?do_login=1">Thử lại ngay</a>

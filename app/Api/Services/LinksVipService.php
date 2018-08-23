@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class LinksVipService{
-    protected $user='';//User linksvip ở đây...
-    protected $pass='';//Mật khẩu nữa...
+    protected $user='a';//User linksvip ở đây...
+    protected $pass='b';//Mật khẩu nữa...
     protected $loginEndpoint='';
     protected $getLinkEndpoint='https://linksvip.net/GetLinkFs';
     function __construct()
@@ -101,11 +101,16 @@ class LinksVipService{
         Cache::delete('linksvip_is_logged_in');
     }
     function checkLogin(){
-        return Cache::remember('linksvip_is_logged_in',60*6,function(){
-            return $this->getUserInfo();
-        });
+        $user=$this->getUserInfo();
+        return !empty($user['logged_in']);
     }
     function getUserInfo(){
+        return Cache::remember('linksvip_is_logged_in',60*6,function(){
+            return $this->_getUserInfo();
+        });
+
+    }
+    protected function _getUserInfo(){
         $client=$this->getClient();
         $response=[];
         if(!$this->user||!$this->pass){
