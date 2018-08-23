@@ -83,7 +83,6 @@ class LinksVipService{
     function maybeLogin(){
         if(!$this->checkLogin()){
             $this->doLogin();
-            Cache::delete('linksvip_is_logged_in');
         }
     }
     function doLogin(){
@@ -99,27 +98,72 @@ class LinksVipService{
             ],
 
         ]);
+        Cache::delete('linksvip_is_logged_in');
     }
     function checkLogin(){
-        if(!$this->user||!$this->pass){
-            return false;
-        }
         return Cache::remember('linksvip_is_logged_in',60*6,function(){
-            $client=$this->getClient();
-            $response=[];
-            try {
-                $res = $client->get('https://linksvip.net/login/logined.php');
-                $body = $res->getBody();
-
-                if(strpos($body,$this->user)){
-                    $response['logged_in']=true;
-                }
-
-            }catch (TransferException $exception){
-
-            }
-            return $response;
+            return $this->getUserInfo();
         });
+    }
+    function getUserInfo(){
+        $client=$this->getClient();
+        $response=[];
+        if(!$this->user||!$this->pass){
+            $response['error']='Bạn chưa cấu hình thông tin tài khoản hãy mở file '.__FILE__.' để cấu hình';
+            return $response;
+        }
+        try {
+            $res = $client->get('https://linksvip.net/login/logined.php');
+            $body = $res->getBody()->getContents();
+            $lines=explode("\n",$body);
+
+            if(strpos($body,$this->user)){
+                $response['logged_in']=true;
+                if(preg_match('#Mã tài khoản &nbsp;&nbsp;&nbsp;&nbsp;<b>(.*?)</b>#',$body,$matches)){
+                    $response['id']=$matches[1];
+                }
+                if(preg_match('#<span id="user">(.*?)</span>#',$body,$matches)){
+                    $response['name']=$matches[1];
+                }
+                if($accountType=$this->_findLine($lines,'Loại tài khoản')) {
+
+                    $accountType = Str::lower($accountType);
+                    if (str_contains($accountType, 'vip')) {
+                        $response['type'] = 'VIP';
+                    } elseif (str_contains($accountType, 'free')) {
+                        $response['type'] = 'Free';
+                    } elseif (str_contains($accountType, 'premium')) {
+                        $response['type'] = 'Premium';
+                    } else {
+                        $response['type'] = 'Unknown';
+                    }
+                }else{
+                    $response['type'] = 'Not found';
+                }
+                $expiredAt=$this->_findLine($lines,'Hạn dùng');
+                if($expiredAt){
+                    if(preg_match('#Hạn dùng <span class="badge"[^>]*>(.*?)</span>#',$expiredAt,$matches)){
+                        $response['expire_at']=$matches[1];
+                    }
+
+                }
+            }
+
+        }catch (TransferException $exception){
+
+        }
+        return $response;
+    }
+    protected function _findLine($lines,$needle){
+        if(!is_array($lines)) {
+            $lines = explode("\n", $lines);
+        }
+        foreach ($lines as $line){
+            if(mb_strpos($line,$needle)!==false){
+                return $line;
+            }
+        }
+        return '';
     }
 
 }

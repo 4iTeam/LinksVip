@@ -23,14 +23,21 @@ class LinksVipController extends Controller
         $this->linksvip=$service;
 
     }
-    function index(){
+    function index(Request $request){
+        if($request->input('do_login')){
+            $this->linksvip->doLogin();
+            return redirect()->to('v1/links_vip');
+        }
         $this->linksvip->maybeLogin();
         $check=$this->linksvip->checkLogin();
-        if(empty($check)||empty($check['logged_in'])){
-            return 'Chưa đăng nhập';
-        }else{
-            return 'Đã đăng nhập';
+        if(empty($check)){
+            return 'Chưa đăng nhập, có thể do thông tin tài khoản không chính xác hãy cập nhật thông tin tài khoản và nhấp vào liên kết bên dưới để thử lại.<br>
+            <a href="?do_login=1">Thử lại ngay</a>
+
+';
+
         }
+        return $check;
     }
     function getLink(Request $request){
         $link=$request->input('link');
