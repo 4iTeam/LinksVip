@@ -10,6 +10,7 @@ $this->group(['prefix'     => 'v1'],function(){
     $this->group(['prefix'=>'links_vip'],function(){
         $this->get('/','LinksVipController@index');
         $this->get('/get','LinksVipController@getLink');
+        $this->post('/get','LinksVipController@getLink');
     });
 
 

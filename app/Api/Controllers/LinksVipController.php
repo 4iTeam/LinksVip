@@ -38,12 +38,15 @@ class LinksVipController extends Controller
             $result['status']=$result['trangthai'];
             $result['error']='';
             $result['message']=$result['loi'];
+            $result['html']=$result['result'];
+            unset($result['result']);
             unset($result['loi']);
             unset($result['trangthai']);
             unset($result['request']);
             if($result['status']==0){
                 $result['error']='server';
             }
+
             return $result;
         }else{
             return ['status'=>0,'message'=>'Máy chủ bận, hãy thử lại sau vài phút!','error'=>'wait'];

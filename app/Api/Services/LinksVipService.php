@@ -82,17 +82,20 @@ class LinksVipService{
     }
     function maybeLogin(){
         if(!$this->checkLogin()){
-            $client=$this->getClient();
-            $client->post('https://linksvip.net/login/',[
-                'form_params'=>[
+            $this->doLogin();
+            Cache::delete('linksvip_is_logged_in');
+        }
+    }
+    function doLogin(){
+        $client=$this->getClient();
+        $client->post('https://linksvip.net/login/',[
+            'form_params'=>[
                 'u'=>$this->user,
                 'p'=>$this->pass,
                 'auto_login'=>'checked',
-                ],
+            ],
 
-            ]);
-            Cache::delete('linksvip_is_logged_in');
-        }
+        ]);
     }
     function checkLogin(){
         return Cache::remember('linksvip_is_logged_in',60*6,function(){

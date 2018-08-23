@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Tool get links by 4IT Community</h1>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default" id="getLinks">
+            <div class="panel-heading">
+                <i class="fa fa-cloud"></i>
+                Tool Get link Fshare 4share Tenlua Tailieu.vn <a target="_blank" title="Xem thêm" href="/host-support.html">more</a> Get link VIP Max Speed, Get link tốc độ cao <!-- - Limit: 1 link / 1 phút-->
+            </div>
+            <div class="panel-body">
+                <div class="input-group form-group">
+                    <span class="input-group-addon"><i class="fa fa-terminal fa-lg"></i></span>
+
+                    <input v-model="url" class="form-control" placeholder="Sao chép địa chỉ tải về vào đây | Mật khẩu (nếu có)" type="text">
+
+                    <span class="input-group-btn">
+	                        <button type="submit" class="btn btn-primary btn-fill" :disabled="!ready" @click="getLink" ><span>Get link <i class="fa fa-arrow-circle-right"></i></span></button>
+	                    </span>
+                </div>
+
+                <div class="loading text-center" v-if="loading">
+                    <span class="l-1"></span>
+                    <span class="l-2"></span>
+                    <span class="l-3"></span>
+                    <span class="l-4"></span>
+                    <span class="l-5"></span>
+                    <span class="l-6"></span>
+
+                    <!--<br/>...Link download sẽ được tạo trong vòng 30 giây nữa...<br/>Vui lòng KHÔNG đóng tab này và kiên nhẫn chờ đợi. Xin cảm ơn. -->
+
+                </div>
+                <div class="alert alert-danger" v-if="result.message">
+                    {{result.message}}
+                </div>
+                <div class="form-group" v-if="result.linkvip">
+                    <div class="text-center">
+                        <div><img :src="'https://www.google.com/s2/favicons?domain='+domain" :alt="domain">
+                            <font color="#00CC00" v-if="result.filename">{{result.filename}}</font>
+                            <font color="#FF66FF" v-if="result.size">({{result.size}})</font>
+                        </div>
+                    </div>
+                    <div class="input-group">
+
+                        <span class="btn-copy input-group-addon" data-clipboard-action="copy" data-clipboard-target="#outputLink"><i class="fa fa-cut"></i></span>
+
+                        <input onclick="$(this).select();" class="form-control" :value="result.linkvip" type="text" readonly="" id="outputLink">
+                        <span class="input-group-btn">
+			                    <a class="btn btn-primary btn-fill" target="_blank" :href="result.linkvip">Tải xuống <i class="fa fa-download"></i></a>
+                    		</span>
+                    </div>
+
+
+                </div>
+                <div class="form-group" v-if="result.status==2">
+                    <div v-html="result.html"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <footer>
+        By <a href="https://4it.top">4IT Community</a>
+        Facebook: <a href="https://fb.com/groups/4it.community">https://fb.com/groups/4it.community</a>
+    </footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="get-links.js"></script>
+</body>
+</html>
