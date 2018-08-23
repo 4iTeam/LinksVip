@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class LinksVipService{
-    protected $user='a';//User linksvip ở đây...
+    protected $user='ass247';//User linksvip ở đây...
     protected $pass='b';//Mật khẩu nữa...
     protected $loginEndpoint='';
     protected $getLinkEndpoint='https://linksvip.net/GetLinkFs';
@@ -98,14 +98,14 @@ class LinksVipService{
             ],
 
         ]);
-        Cache::delete('linksvip_is_logged_in');
+        Cache::delete('linksvip_userinfo');
     }
     function checkLogin(){
         $user=$this->getUserInfo();
         return !empty($user['logged_in']);
     }
     function getUserInfo(){
-        return Cache::remember('linksvip_is_logged_in',60*6,function(){
+        return Cache::remember('linksvip_userinfo',60*6,function(){
             return $this->_getUserInfo();
         });
 
@@ -152,6 +152,8 @@ class LinksVipService{
                     }
 
                 }
+            }else{
+                $response['error']='Không thể đăng nhập hãy kiểm tra thông tin tài khoản ở '.__FILE__.'';
             }
 
         }catch (TransferException $exception){

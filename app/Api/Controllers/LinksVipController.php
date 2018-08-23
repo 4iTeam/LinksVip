@@ -30,7 +30,7 @@ class LinksVipController extends Controller
         }
         $this->linksvip->maybeLogin();
         $check=$this->linksvip->getUserInfo();
-        if(empty($check)){
+        if(0&&empty($check['logged_in'])){
             return 'Chưa đăng nhập, có thể do thông tin tài khoản không chính xác hãy cập nhật thông tin tài khoản và nhấp vào liên kết bên dưới để thử lại.<br>
             <a href="?do_login=1">Thử lại ngay</a>
 
