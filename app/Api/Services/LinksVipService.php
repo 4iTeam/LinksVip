@@ -87,6 +87,9 @@ class LinksVipService{
         }
     }
     function doLogin(){
+        if(!$this->user || !$this->pass){
+            return ;
+        }
         $client=$this->getClient();
         $client->post('https://linksvip.net/login/',[
             'form_params'=>[
@@ -98,6 +101,9 @@ class LinksVipService{
         ]);
     }
     function checkLogin(){
+        if(!$this->user||!$this->pass){
+            return false;
+        }
         return Cache::remember('linksvip_is_logged_in',60*6,function(){
             $client=$this->getClient();
             $response=[];

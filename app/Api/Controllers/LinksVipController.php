@@ -26,9 +26,11 @@ class LinksVipController extends Controller
     function index(){
         $this->linksvip->maybeLogin();
         $check=$this->linksvip->checkLogin();
-        $check['hash']=$this->linksvip->hash(32);
-        $check['hash'].='|'.strlen($check['hash']);
-        return $check;
+        if(empty($check)||empty($check['logged_in'])){
+            return 'Chưa đăng nhập';
+        }else{
+            return 'Đã đăng nhập';
+        }
     }
     function getLink(Request $request){
         $link=$request->input('link');
